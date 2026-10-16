@@ -508,9 +508,7 @@ if __name__ == "__main__":
                     if self.set_values(values) == True:
                         if values.get("start_vc") == "__AUTO__":
                             self.function = "vc"
-                        printt(
-                            "Start audio conversion: function=%s", self.function
-                        )
+                        printt("Start audio conversion: function=%s", self.function)
                         printt("cuda_is_available: %s", torch.cuda.is_available())
                         self.start_vc()
                         settings = {
@@ -598,7 +596,7 @@ if __name__ == "__main__":
             if len(values["index_path"].strip()) == 0:
                 sg.popup(i18n("请选择index文件"))
                 return False
-            pattern = re.compile("[^\x00-\x7F]+")
+            pattern = re.compile("[^\x00-\x7f]+")
             if pattern.findall(values["pth_path"]):
                 sg.popup(i18n("pth文件路径不可包含中文"))
                 return False

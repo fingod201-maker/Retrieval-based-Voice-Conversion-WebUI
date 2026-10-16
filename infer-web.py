@@ -32,7 +32,6 @@ import threading
 import shutil
 import logging
 
-
 logging.getLogger("numba").setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)

@@ -5,7 +5,6 @@ from pathlib import Path
 
 from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
 
-
 ROOT = Path(__file__).resolve().parents[1]
 EXPERIMENT = "CC1080p"
 EVENTS = ROOT / "logs" / EXPERIMENT
@@ -54,17 +53,22 @@ def main() -> None:
             batch = (step - 1) % steps_per_epoch_count + 1
             discriminator_loss = latest("loss/d/total")
             mel_loss = latest("loss/g/mel")
-            gpu = subprocess.run(
-                [
-                    "nvidia-smi",
-                    "--query-gpu=memory.used,utilization.gpu",
-                    "--format=csv,noheader,nounits",
-                ],
-                capture_output=True,
-                text=True,
-                check=True,
-                timeout=10,
-            ).stdout.strip().splitlines()[0].split(",")
+            gpu = (
+                subprocess.run(
+                    [
+                        "nvidia-smi",
+                        "--query-gpu=memory.used,utilization.gpu",
+                        "--format=csv,noheader,nounits",
+                    ],
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                    timeout=10,
+                )
+                .stdout.strip()
+                .splitlines()[0]
+                .split(",")
+            )
             line = (
                 f"Epoch ~{epoch}/200 | batch ~{batch}/{steps_per_epoch_count} "
                 f"| step {step} | G loss {generator_loss.value:.3f} "
